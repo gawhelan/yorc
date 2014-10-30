@@ -1,18 +1,25 @@
 {
-    "name": "yorc",
-    "version": "0.1.0",
-    "description": "A simple deployment tool.",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [
-        "deployment"
-    ],
-    "author": "Graham Whelan <gawhelan@gmail.com>",
-    "license": "ISC",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/gawhelan/yorc.git"
-    }
+  "name": "yorc",
+  "version": "0.1.0",
+  "description": "A simple deployment tool.",
+  "main": "index.js",
+  "bin": {
+    "yorc": "bin/yorc.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "deployment"
+  ],
+  "author": "Graham Whelan <gawhelan@gmail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gawhelan/yorc.git"
+  },
+  "dependencies": {
+    "ssh2": "^0.3.6",
+    "yamljs": "^0.2.1"
+  }
 }
