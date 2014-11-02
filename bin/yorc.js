@@ -18,7 +18,18 @@ if (!targetName) {
     process.exit(1);
 }
 
-target = loadTarget(targetName);
+try {
+    target = loadTarget(targetName);
+} catch (err) {
+    if (err.code === 'ENOENT') {
+        console.error('Error: could not find target file.\n' + err.message);
+    } else {
+        console.error('Error: could not parse target file.\n' + err.message);
+        console.log(err.name);
+    }
+
+    process.exit(1);
+}
 
 var conn = new Connection();
 
