@@ -23,7 +23,9 @@ target = loadTarget(targetName);
 var conn = new Connection();
 
 conn.on('ready', function () {
-    conn.shell({pty: true}, function (err, stream) {
+    function handleNewStream(err, stream) {
+        var stdin = process.stdin;
+
         if (err) {
             console.error(err);
             conn.end();
@@ -31,16 +33,23 @@ conn.on('ready', function () {
             return;
         }
 
-        stream.on('close', function () {
-            conn.end();
-        });
+        stream.on('close', function () { conn.end(); });
 
-        process.stdin.setRawMode(true);
-        process.stdin.setEncoding('utf8');
-        process.stdin.pipe(stream);
+        stdin.setEncoding('utf8');
+        if (stdin.isTTY) {
+            stdin.setRawMode(true);
+        }
+        stdin.pipe(stream);
 
         stream.stdout.pipe(process.stdout);
-    });
+        stream.stderr.pipe(process.stderr);
+    }
+
+    if (process.stdin.isTTY) {
+        conn.shell({pty: true}, handleNewStream);
+    } else {
+        conn.exec('sh -s', handleNewStream);
+    }
 });
 
 conn.on('error', function (err) {
