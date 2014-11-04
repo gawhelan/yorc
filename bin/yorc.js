@@ -5,7 +5,14 @@
 var Connection = require('ssh2');
 var yaml = require('yamljs');
 
-var targetName = process.argv[2];
+var argv = require('yargs')
+    .require(1)
+    .help('h').alias('h', 'help')
+    .version(require('../package').version, 'v').alias('v', 'version')
+    .usage('usage: $0 target')
+    .argv;
+
+var targetName = argv._[0];
 var target;
 
 function loadTarget(name) {
